@@ -1,0 +1,29 @@
+`timescale 1ns / 1ps
+///testbench for the pipeline processor
+module ppd_tb;
+reg clk;
+reg reset;
+ppd uut(
+    .clk(clk),
+    .reset(reset)
+);
+always #5 clk = ~clk;
+initial
+begin
+    clk = 0;
+    reset = 1;
+    #10;
+    reset = 0;
+    #100;
+    $finish;
+end
+initial
+begin
+    $monitor("TIME=%0t | PC=%d | R0=%d | R3=%d | R6=%d",
+              $time,
+              uut.pc,
+              uut.regfile[0],
+              uut.regfile[3],
+              uut.regfile[6]);
+end
+endmodule
